@@ -311,6 +311,11 @@ class CollectionTreeController @Inject constructor(dispatchers: Dispatchers){
         includeCollapsedChanges: Boolean = false,
         shouldExpandCollections: Boolean = false,
     ) {
+        // Expand before taking the collapsed snapshot, so the expansion is shown now
+        // instead of with an unrelated later update, such as toggling another collection
+        if (shouldExpandCollections) {
+            expandCollectionsIfNeeded()
+        }
         val treeChanges = if (includeTreeChanges) {
             createListOfCollectionItemsWithChildren().toPersistentList()
         } else {
@@ -320,9 +325,6 @@ class CollectionTreeController @Inject constructor(dispatchers: Dispatchers){
             collapsed.toPersistentMap()
         } else {
             null
-        }
-        if (shouldExpandCollections) {
-            expandCollectionsIfNeeded()
         }
 
         collectionTreeControllerInterface.sendChangesToUi(
