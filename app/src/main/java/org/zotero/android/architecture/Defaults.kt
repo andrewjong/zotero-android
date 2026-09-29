@@ -83,6 +83,7 @@ open class Defaults @Inject constructor(
 
     private val doNotShowAppUpdateBannerBeforeTime = "doNotShowAppUpdateBannerBeforeTime"
     private val pdfViewStatePrefix = "pdfViewState_"
+    private val didAskForDownloadNotificationPermission = "didAskForDownloadNotificationPermission"
 
     private val sharedPreferences: SharedPreferences by lazy {
         context.getSharedPreferences(
@@ -443,6 +444,14 @@ open class Defaults @Inject constructor(
 
     fun setDoNotShowAppUpdateBannerBeforeTime(newValue: Long) {
         sharedPreferences.edit { putLong(doNotShowAppUpdateBannerBeforeTime, newValue) }
+    }
+
+    fun didAskForDownloadNotificationPermission(): Boolean {
+        return sharedPreferences.getBoolean(didAskForDownloadNotificationPermission, false)
+    }
+
+    fun setDidAskForDownloadNotificationPermission(newValue: Boolean) {
+        sharedPreferences.edit { putBoolean(didAskForDownloadNotificationPermission, newValue) }
     }
 
     fun getLastCitationProcCommitHash(): String {
