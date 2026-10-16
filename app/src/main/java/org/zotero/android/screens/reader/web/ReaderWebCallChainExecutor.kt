@@ -135,11 +135,15 @@ class ReaderWebCallChainExecutor @Inject constructor(
                         }
 
                         "onSetAnnotationPopup" -> {
-                            val params = data["params"].asJsonObject
-
-                            if (params.isEmpty) {
+                            val dParams = data["params"]
+                            if (dParams == null
+                                || dParams.isJsonNull
+                                || !dParams.isJsonObject
+                                || dParams.asJsonObject.isEmpty
+                            ) {
                                 return@launch
                             }
+                            val params = dParams.asJsonObject
 
 //                            val rectArray = params["rect"].asJsonArray.map { it.asDouble }
                             val key = params["annotation"].asJsonObject["id"].asString
@@ -281,6 +285,16 @@ class ReaderWebCallChainExecutor @Inject constructor(
                             )
                         }
 
+                        "onReadingModeEnabled" -> {
+                            val params = data["params"].asJsonObject
+                            val enabled = params["enabled"].asBoolean
+                            observable.emitAsync(
+                                Result.Success(
+                                    ReaderWebData.setReadingModeEnabled(enabled)
+                                )
+                            )
+                        }
+
                     }
                 }
 
@@ -348,7 +362,7 @@ class ReaderWebCallChainExecutor @Inject constructor(
 
     suspend fun selectSearchResult(index: Int) {
         return suspendCancellableCoroutine { cont ->
-            readerWebViewHandler.evaluateJavascript("javascript:window._view.find({ index: '${index}' });") {
+            readerWebViewHandler.evaluateJavascript("javascript:window._view.find({ index: ${index} });") {
                 cont.resume(Unit)
             }
         }
@@ -581,6 +595,40 @@ class ReaderWebCallChainExecutor @Inject constructor(
     suspend fun setScrollMode(scrollMode: PageScrollMode) {
         return suspendCancellableCoroutine { cont ->
             val javascript = "window._view.setScrollMode(${scrollMode.jsValue});"
+            readerWebViewHandler.evaluateJavascript(javascript) {
+                cont.resume(Unit)
+            }
+        }
+    }
+
+    suspend fun setSDTPack(bytesBase64: String, packVersion: Int, schemaMajorVersion: Int) {
+        return suspendCancellableCoroutine { cont ->
+            val javascript =
+                "javascript:setSDTPack({ bytes: '$bytesBase64', packVersion: $packVersion, schemaMajorVersion: $schemaMajorVersion });"
+            readerWebViewHandler.evaluateJavascript(javascript) {
+                cont.resume(Unit)
+            }
+        }
+    }
+
+    suspend fun setAppearance(
+        lineHeight: Double,
+        wordSpacing: Double,
+        letterSpacing: Double,
+        pageWidth: Int
+    ) {
+        return suspendCancellableCoroutine { cont ->
+            val javascript =
+                "javascript:setAppearance({ lineHeight: $lineHeight, wordSpacing: $wordSpacing, letterSpacing: $letterSpacing, pageWidth: $pageWidth });"
+            readerWebViewHandler.evaluateJavascript(javascript) {
+                cont.resume(Unit)
+            }
+        }
+    }
+
+    suspend fun setReadingModeEnabled(enabled: Boolean) {
+        return suspendCancellableCoroutine { cont ->
+            val javascript = "javascript:setReadingModeEnabled({ enabled: $enabled });"
             readerWebViewHandler.evaluateJavascript(javascript) {
                 cont.resume(Unit)
             }

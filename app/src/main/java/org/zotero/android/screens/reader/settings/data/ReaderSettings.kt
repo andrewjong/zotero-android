@@ -35,6 +35,10 @@ data class ReaderSettings(
     var scrollMode: PageScrollMode,
     var spreadsMode: PageSpreadsMode,
     var pageLayoutFlowMode: PageLayoutFlowMode,
+    var lineHeight: Float,
+    var wordSpacing: Float,
+    var letterSpacing: Float,
+    var pageWidth: Int,
     var fitToContent: Boolean = false,
     var contentMargin: PageContentMargin = PageContentMargin.SMALL,
 ) {
@@ -44,7 +48,11 @@ data class ReaderSettings(
                 appearanceMode = PageAppearanceMode.AUTOMATIC,
                 scrollMode = PageScrollMode.VERTICAL,
                 spreadsMode = PageSpreadsMode.NONE,
-                pageLayoutFlowMode = PageLayoutFlowMode.PAGINATED
+                pageLayoutFlowMode = PageLayoutFlowMode.PAGINATED,
+                lineHeight = 1.2f,
+                wordSpacing = 0f,
+                letterSpacing = 0f,
+                pageWidth = 0,
             )
         }
     }
