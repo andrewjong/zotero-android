@@ -442,6 +442,9 @@ class ReaderWebCallChainExecutor @Inject constructor(
     suspend fun loadDocument(data: ReaderDocumentData, isDark: Boolean) {
         Timber.i("ReaderWebCallChainExecutor: try creating view for ${data.type}; page = ${data.page}")
         Timber.i("${data.file.absolutePath}")
+        if (data.type == "pdf") {
+            readerWebViewHandler.disableTextZoom()
+        }
         val createReaderViewOptions = CreateReaderViewOptions(
             type = data.type,
             url = "https://appassets.androidplatform.net/local/${data.file.name}",

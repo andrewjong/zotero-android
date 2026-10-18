@@ -104,6 +104,14 @@ class ReaderWebViewHandler @Inject constructor(
 
     }
 
+    // PDF.js sizes its invisible text layer by measuring text on a canvas, which ignores the
+    // WebView text zoom (the system font size), so any other zoom misplaces text selection
+    fun disableTextZoom() {
+        uiMainCoroutineScope.launch {
+            webView.settings.textZoom = 100
+        }
+    }
+
     fun evaluateJavascript(javascript: String, result: (String) -> Unit) {
         uiMainCoroutineScope.launch {
             webView.evaluateJavascript(javascript) { result ->
