@@ -15,7 +15,8 @@
 	url = https://github.com/citation-style-language/locales.git
 [submodule "reader"]
 	path = reader
-	url = https://github.com/zotero/reader.git
+	url = https://github.com/andrewjong/reader.git
+	branch = boox-integration
 [submodule "document-worker"]
 	path = document-worker
 	url = https://github.com/zotero/document-worker.git
