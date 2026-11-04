@@ -1,16 +1,29 @@
 package org.zotero.android.screens.reader.web
 
 import android.content.Context
+import android.os.Build
 import android.util.AttributeSet
 import android.view.ActionMode
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
+import android.view.textclassifier.TextClassifier
 import android.webkit.WebView
 import kotlin.math.abs
 import kotlin.math.hypot
 
 class ReaderCustomWebView(context: Context, attrs: AttributeSet? = null) : WebView(context, attrs) {
+
+    init {
+        // After a long-press drag or a selection handle drag, WebView asks the TextClassifier about
+        // the selection before showing the selection menu again. For selections starting at the
+        // beginning of a PDF text line, that menu never comes back and stays hidden until the
+        // document is scrolled. Smart text selection isn't needed for creating annotations, so
+        // skip it and always show the menu right away.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+            setTextClassifier(TextClassifier.NO_OP)
+        }
+    }
 
     var selectionActionModeDelegate: ReaderSelectionActionModeDelegate? = null
 
