@@ -2355,8 +2355,7 @@ class ReaderViewModel @Inject constructor(
         annotationTool: ReaderAnnotationTool,
         colorHex: String? = null
     ) {
-        readerWebCallChainExecutor.clearTool()
-
+        // Don't clear the tool first, going through the pointer tool makes the reader forget a detected pen
         when (annotationTool) {
             ReaderAnnotationTool.ink -> {
                 readerWebCallChainExecutor.setTool(
