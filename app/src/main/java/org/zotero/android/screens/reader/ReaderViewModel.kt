@@ -1511,6 +1511,7 @@ class ReaderViewModel @Inject constructor(
                     contentFitMargin = contentFitMargin,
                     // A zoom the user chose for this document takes precedence over fitting
                     fitToContentOnOpen = savedPdfViewState == null,
+                    displayColors = AnnotationsConfig.displayColors,
                 )
                 readerWebCallChainExecutor.loadDocument(
                     data = documentData,

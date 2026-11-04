@@ -17,6 +17,9 @@ object AnnotationsConfig {
         "#aaaaaa",
         "#000000"
     )
+    // Kaleido e-ink panels show the orange highlight close to the yellow one, so the reader draws
+    // it with a hue closer to red (11° instead of 31°). Stored annotation colors stay unchanged.
+    val displayColors = mapOf("#f19837" to "#f15937")
     val typesWithColorVariation: List<org.zotero.android.database.objects.AnnotationType?> = listOf(
         null,
         org.zotero.android.database.objects.AnnotationType.highlight,

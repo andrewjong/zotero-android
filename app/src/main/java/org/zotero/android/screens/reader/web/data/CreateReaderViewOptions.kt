@@ -9,6 +9,7 @@ data class CreateReaderViewOptions(
     var location: CreateReaderLocation? = null,
     var viewState: CreateReaderViewState = CreateReaderViewState(),
     var contentFit: CreateReaderContentFit? = null,
+    var displayColors: Map<String, String> = emptyMap(),
 
     var colorScheme: String = "light",
 )

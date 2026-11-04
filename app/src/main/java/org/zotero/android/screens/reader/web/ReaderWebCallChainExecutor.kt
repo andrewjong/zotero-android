@@ -517,6 +517,7 @@ class ReaderWebCallChainExecutor @Inject constructor(
                 fitOnOpen = data.fitToContentOnOpen,
             )
         }
+        createReaderViewOptions.displayColors = data.displayColors
 
         val appearanceString = if (isDark) {
             "dark"

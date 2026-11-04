@@ -14,4 +14,6 @@ data class ReaderDocumentData(
     val contentFitMargin: Double? = null,
     // False when a zoom the user chose is restored instead of fitting
     val fitToContentOnOpen: Boolean = true,
+    // Colors annotations are drawn with in place of their stored colors
+    val displayColors: Map<String, String> = emptyMap(),
 )
